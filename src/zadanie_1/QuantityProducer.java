@@ -10,7 +10,6 @@ public class QuantityProducer {
         this.index = index;
     }
 
-
     public String getName() {
         return name;
     }
@@ -26,9 +25,6 @@ public class QuantityProducer {
     public void setIndex(int index) {
         this.index = index;
     }
-
-
-
 
     @Override
     public String toString() {

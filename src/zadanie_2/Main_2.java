@@ -1,7 +1,6 @@
 package zadanie_2;
 
 import java.util.Scanner;
-import java.util.SortedMap;
 
 public class Main_2 {
     public static void main(String[] args) {
@@ -31,10 +30,13 @@ public class Main_2 {
         }
 
         CalcClass calcClass = new CalcClass();
-        calcClass.sumaLiczb(tab, podzialTab);
-        calcClass.printSum(calcClass.getTabelka() );
 
+        int[] sumaTablica = new int [podzialTab];
+        sumaTablica = calcClass.sumaLiczb(tab, podzialTab);
 
+        for (int i = 0; i < sumaTablica.length; i++) {
+            System.out.print(sumaTablica[i] + ",");
+        }
     }
 
 }

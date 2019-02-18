@@ -7,16 +7,13 @@ import java.util.function.Consumer;
 
 public class TestClass_1 {
 
-  public   static int intMaxPrice = 0;
-   public static double maxPrice = 0;
-    private static Object Product;
 
+    private static Object Product;
+    public static final int QUANTITY_PRODUCT = 10;
 
     public static void main(String[] args) throws IOException {
 
-        final int quantityProduct = 10;
-
-        Product[] products = new Product[quantityProduct];
+        Product[] products = new Product[QUANTITY_PRODUCT];
         products[0] = new Product("Czekolada Gorzka", "Wawel", 2.09);
         products[1] = new Product("Batonik", "Wawel", 1.58);
         products[2] = new Product("Mieszanka", "Wawel", 15.15);
@@ -28,101 +25,41 @@ public class TestClass_1 {
         products[8] = new Product("Czekalada", "Milka", 3.25);
         products[9] = new Product("Czekalada Nadziewana", "Milka", 3.25);
 
-        String plikMagazyn = "produkty.csv";
-        FileWriter fileWriter = null;
-        try {
-            fileWriter = new FileWriter(plikMagazyn);
-        } catch (IOException e) {
-            e.printStackTrace();
+//        String plikMagazyn = "produkty.csv";
+//        FileWriter fileWriter = null;
+//        try {
+//            fileWriter = new FileWriter(plikMagazyn);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//
+//        }
+//        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+//
+//        for (Product product : products) {
+//            bufferedWriter.write(product.toString());
+//            bufferedWriter.newLine();
+//        }
+//        bufferedWriter.close();
 
-        }
-        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        InputOutput iO = new InputOutput();
+        iO.outputCase(products);
 
-        for (Product product : products) {
-            bufferedWriter.write(product.toString());
-            bufferedWriter.newLine();
-        }
-        bufferedWriter.close();
-
-        for (Product product : products) {
-            product.setName(null);
-            product.setProducer(null);
-            product.setPrice(0);
-        }
-
-        FileReader fileReader = new FileReader(plikMagazyn);
-        BufferedReader bfr = new BufferedReader(fileReader);
-        String line = null;
-
-        String[][] linijka = new String[quantityProduct][];
-        int i = 0;
-        double price = 0;
-        double sumPrice = 0;
-
-        while ((line = bfr.readLine()) != null) {
-            linijka[i] = line.split(";");
-            products[i].setName(linijka[i][0]);
-            products[i].setProducer(linijka[i][1]);
-            price = Double.valueOf(linijka[i][2]).doubleValue();
-            products[i].setPrice(price);
-            testPrice(products[i], i);
-            sumPrice += price;
-            i++;
-        }
-        bfr.close();
-
-        System.out.printf("Suma wszystkich cen wynosi %.2f zł\n", sumPrice);
-        System.out.printf("Najdroższy produkt to - %s\n\n", products[intMaxPrice].toString());
-        maxQuantiyProducer(products);
-    }
-
-    static void maxQuantiyProducer(Product[] products) {
-        ArrayList<String> prodcentNazwa = new ArrayList<>();
-        prodcentNazwa.add(products[0].getProducer());
-        boolean ok;
-        int i;
+        zadanie_1.Product product1 = new Product();
 
         for (Product product : products) {
-            ok = false;
-            i = 0;
-            do {
-                if (product.getProducer().equals(prodcentNazwa.get(i))) {
-                    ok = true;
-                }
-                i++;
-            } while (!ok && i < prodcentNazwa.size());
-            if (!ok) {
-                prodcentNazwa.add(product.getProducer());
-            }
+            product1.productNull();
         }
-        maxNazwa(prodcentNazwa, products);
+
+        iO.inputCase(products,QUANTITY_PRODUCT);
+
+
+        WorkClass workClass = new WorkClass();
+        System.out.printf("Suma wszystkich cen wynosi %.2f zł\n", iO.getSumPrice());
+        System.out.printf("Najdroższy produkt to - %s\n\n", products[workClass.intMaxPrice].toString());
+        workClass.maxQuantiyProducer(products);
     }
 
-    static void maxNazwa(ArrayList arrayList, Product[] product1) {
-        int indeksMax = 0;
-        int nrIndexMax = 0;
 
-        for (int i = 0; i < arrayList.size(); i++) {
-           int indeks = 0;
-            for (zadanie_1.Product product : product1) {
-                if (arrayList.get(i).equals(product.getProducer())) {
-                    indeks++;
-                    if (indeksMax < indeks) {
-                        indeksMax = indeks;
-                        nrIndexMax = i;
-                    }
-                }
-            }
-        }
-        System.out.println("Najwięcej produktów jest producenta - "+arrayList.get(nrIndexMax));
-    }
-
-    static void testPrice(Product productTest, int indeks) {
-        if (maxPrice < productTest.getPrice()) {
-            maxPrice = productTest.getPrice();
-            intMaxPrice = indeks;
-        }
-    }
 }
 
 

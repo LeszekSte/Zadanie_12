@@ -7,6 +7,8 @@ public class Product {
     private String producer;
     private double price;
 
+    public Product(){}
+
     public Product(String name, String producer, double price) {
         this.producer = producer;
         this.name = name;
@@ -49,6 +51,14 @@ public class Product {
     public void setPrice(double price) {
         this.price = price;
     }
+
+
+    void productNull() {
+        name =null;
+        producer =null;
+        price=0;
+    }
+
 
     @Override
     public String toString() {

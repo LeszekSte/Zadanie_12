@@ -2,66 +2,93 @@ package zadanie_1;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.function.Consumer;
+import java.util.List;
+
+
 
 public class TestClass_1 {
 
 
-    private static Object Product;
-    public static final int QUANTITY_PRODUCT = 10;
-
     public static void main(String[] args) throws IOException {
+        List<Product> list = new ArrayList<>(100);
+        readData(list);
+        printList(list);
+        System.out.printf("Suma cen wszystkich produktów wynosi %.2f\n", sumPrice(list));
+        System.out.printf("Najdroższy produkt to %S \n", list.get(mostExpensiveProduct(list)));
+        System.out.println( maxNumberOfproducer(list));
+    }
 
-        Product[] products = new Product[QUANTITY_PRODUCT];
-        products[0] = new Product("Czekolada Gorzka", "Wawel", 2.09);
-        products[1] = new Product("Batonik", "Wawel", 1.58);
-        products[2] = new Product("Mieszanka", "Wawel", 15.15);
-        products[3] = new Product("Czekolada Mleczna", "Milka", 2.20);
-        products[4] = new Product("Michałki", "Milka", 12.3);
-        products[5] = new Product("Michłki Biłe", "Śnieżka", 12.3);
-        products[6] = new Product("Trufle", "Wawel", 15.3);
-        products[7] = new Product("Trufle", "Śnieżka", 130.23);
-        products[8] = new Product("Czekalada", "Milka", 3.25);
-        products[9] = new Product("Czekalada Nadziewana", "Milka", 3.25);
+    private static String maxNumberOfproducer(List<Product> list) {
+        String nameMaxProducer = null;
+        int sumMaxProcucer = 0;
+        int sumProducer;
 
-//        String plikMagazyn = "produkty.csv";
-//        FileWriter fileWriter = null;
-//        try {
-//            fileWriter = new FileWriter(plikMagazyn);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//
-//        }
-//        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-//
-//        for (Product product : products) {
-//            bufferedWriter.write(product.toString());
-//            bufferedWriter.newLine();
-//        }
-//        bufferedWriter.close();
+        for (int i = 0; i < list.size(); i++) {
+            String tempProducer = list.get(i).getProducer();
+            sumProducer = 0;
 
-        InputOutput iO = new InputOutput();
-        iO.outputCase(products);
+            for (int i1 = 0; i1 < list.size(); i1++) {
 
-        zadanie_1.Product product1 = new Product();
-
-        for (Product product : products) {
-            product1.productNull();
+                if (tempProducer.equals(list.get(i1).getProducer())) {
+                    sumProducer++;
+                }
+            }
+            if (sumProducer> sumMaxProcucer) {
+                nameMaxProducer = tempProducer;
+                sumMaxProcucer=sumProducer;
+            }
         }
-
-        iO.inputCase(products,QUANTITY_PRODUCT);
-
-
-        WorkClass workClass = new WorkClass();
-        System.out.printf("Suma wszystkich cen wynosi %.2f zł\n", iO.getSumPrice());
-        System.out.printf("Najdroższy produkt to - %s\n\n", products[workClass.intMaxPrice].toString());
-        workClass.maxQuantiyProducer(products);
+        return nameMaxProducer;
     }
 
 
-}
+    private static int mostExpensiveProduct(List<Product> list) {
+        int maxIndexPrice = 0;
+        double maxPrice = 0;
+        for (int i = 0; i < list.size(); i++) {
+            double tempPrice = list.get(i).getPrice();
 
+            if (tempPrice > maxPrice) {
+                maxIndexPrice = i;
+                maxPrice = tempPrice;
+            }
+        }
+
+        return maxIndexPrice;
+    }
+
+    private static double sumPrice(List<Product> list) {
+        int sum = 0;
+        for (int i = 0; i < list.size(); i++) {
+            sum += list.get(i).getPrice();
+        }
+        return sum;
+    }
+
+    private static void printList(List<Product> list) {
+        for (Product product : list) {
+            System.out.println(product.toString());
+        }
+
+    }
+
+    private static List<Product> readData(List<Product> listInput) throws IOException {
+        FileReader fileReader = new FileReader("produkty.csv");
+        BufferedReader bfr = new BufferedReader(fileReader);
+        String line = null;
+        int ithm = 0;
+
+        while ((line = bfr.readLine()) != null) {
+            // System.out.println(line);
+            String[] position = line.split(";");
+            Product product = new Product(position[0], position[1], Double.valueOf(position[2]));
+            listInput.add(product);
+        }
+        bfr.close();
+        return listInput;
+    }
+
+}
 
 
 

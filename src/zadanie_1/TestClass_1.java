@@ -13,9 +13,10 @@ public class TestClass_1 {
         List<Product> list = new ArrayList<>(100);
         readData(list);
         printList(list);
-        System.out.printf("Suma cen wszystkich produktów wynosi %.2f\n", sumPrice(list));
+
+        System.out.printf("\nSuma cen wszystkich produktów wynosi %.2f zł\n", sumPrice(list));
         System.out.printf("Najdroższy produkt to %S \n", list.get(mostExpensiveProduct(list)));
-        System.out.println( maxNumberOfproducer(list));
+        System.out.printf("Najwięcej jest produktów producenta %S\n", maxNumberOfproducer(list));
     }
 
     private static String maxNumberOfproducer(List<Product> list) {
